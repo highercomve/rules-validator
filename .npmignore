@@ -1,0 +1,7 @@
+.node_modules
+playground
+src
+.vscode
+test
+build.sh
+browserMock.js

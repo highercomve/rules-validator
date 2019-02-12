@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>Rules validator</h1><p>This librery tries to set a central location to create validation for state variables, separeted by component outside of the component</p>
+<h2>How to create validation Rules</h2><p>We need to create a rules set by app and by component, this set of rules are functions should return a ValidationObj</p>
+<pre class="prettyprint source lang-typescript"><code>interface ValidationObj {
+  valid: boolean;
+  error?: string;
+}</code></pre><pre class="prettyprint source lang-js"><code>const RULES = {
+  default: {
+    componentName: {
+      validateFirstNameRequired (state) {
+        return {
+          valid: !!state.profile.firstName,
+          error: !state.profile.firstName ? 'ERROR-TYPE' : undefined
+        }
+      } 
+    }
+  }
+}</code></pre><p>there are some utils to do this in a easy way</p>
+<pre class="prettyprint source lang-js"><code>import { rulesCreator } from 'rules-validator/lib/utils'
+import * as Validators from 'rules-validator/lib/validators'
+
+// Validators can be extend with whatever we want
+const componentNameErrors = {} // this will be loadead with all the posible errors created by the rulesCreator function
+const createRules = rulesCreator.bind(null, Validators)
+const RULES = {
+  default: {
+    componentName: createRules(componentNameErrors, [
+      {
+        name: 'firstName', // name of the rule
+        type: 'required', // type of the validator. Read the validators to know the available ones
+        stateMap: 'profile.firstName' // route in the state where the field to validate is
+      },
+      {
+        name: 'lastName',
+        type: 'required',
+        stateMap: 'profile.lastName' 
+      }
+      // you can add all the rules need it here
+    ])
+  }
+}</code></pre><h3>How to use it</h3><p>Install the <code>rules-message</code> component in order to used in any form for validation</p>
+<pre class="prettyprint source lang-js"><code>import Vue from 'vue'
+import { RulesMessage } from 'rules-validator'
+
+Vue.use(RulesMessage)</code></pre><p>Integrate in any form the validation</p>
+<pre class="prettyprint source lang-js"><code>import RulesMixin from 'rules-validator/lib/mixin'
+import { appRulesValidation } from 'rules-validator/lib/utils'
+
+const FormComponent = {
+  name: 'form-component',
+  mixins: [RulesMixin],
+  template: `
+  &lt;form class=&quot;profile-form&quot; @submit.prevent=&quot;save&quot;>
+    &lt;div class=&quot;profile-form__row&quot;>
+      &lt;div class=&quot;profile-form__field input-group&quot;>
+        &lt;label for=&quot;firstName&quot;>
+          {{ $t('profile-form.firstName') }}
+        &lt;/label>
+        &lt;input
+          v-model=&quot;user.firstName&quot;
+          name=&quot;firstName&quot;
+          id=&quot;firstName&quot;
+          type=&quot;text&quot;
+          required
+        />
+        &lt;rules-message type=&quot;firstName&quot; :match=&quot;true&quot; />
+      &lt;/div>
+      &lt;div class=&quot;profile-form__field input-group&quot; >
+        &lt;label for=&quot;lastName&quot;>
+          {{ $t('profile-form.lastName') }}
+        &lt;/label>
+        &lt;input
+          v-model=&quot;user.lastName&quot;
+          type=&quot;text&quot;
+          name=&quot;lastName&quot;
+          id=&quot;lastName&quot;
+          required
+        />
+        &lt;rules-message type=&quot;lastName&quot; :match=&quot;true&quot; />
+      &lt;/div>
+    &lt;/div>
+  &lt;/form>
+  `,
+  methods () {
+    appRulesValidation () {
+      return appRulesValidation(RULES, this.$store.state, applicationName, this.$options.name)
+    },
+    submit () {
+      await this.validateRules()
+      if (this.rulesValid) {
+        // do something your form is valid
+      }
+
+      // if not... the form will render the errors
+    }
+  }
+}</code></pre><h2>Validators</h2><p>the function has this form:</p>
+<pre class="prettyprint source lang-js"><code>const aValidatorFunction = 
+  (path, errorType, compareWith, defaultValue = '') => 
+  (state) => { valid: Boolean, error: String }</code></pre></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#appRulesValidation">appRulesValidation</a></li><li><a href="global.html#factoryValidationObj">factoryValidationObj</a></li><li><a href="global.html#ruleCreator">ruleCreator</a></li><li><a href="global.html#rulesCreator">rulesCreator</a></li><li><a href="global.html#validate">validate</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Feb 12 2019 18:13:53 GMT-0300 (Chile Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

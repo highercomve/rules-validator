@@ -1,0 +1,78 @@
+{
+  "name": "vue-rules-validator",
+  "version": "0.0.1",
+  "description": "Rules validation package",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "author": "Sergio Marin <higher.vnf@gmail.com>",
+  "homepage": "https://github.com/highercomve/rules-validator",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "test": "jest ./test",
+    "build": "./build.sh",
+    "lint": "eslint --ext .js,.vue src test",
+    "pretest": "yarn lint",
+    "prebuild": "yarn test",
+    "prepublishOnly": "yarn build",
+    "docs": "jsdoc README.md src/ -d docs",
+    "playground": "yarn parcel serve example/index.html"
+  },
+  "jest": {
+    "coverageDirectory": "./test/coverage/",
+    "collectCoverageFrom": [
+      "./src/**",
+      "!**/node_modules/**",
+      "!**/vendor/**"
+    ],
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
+      "^.+\\.vue$": "vue-jest"
+    },
+    "setupFiles": [
+      "<rootDir>/browserMock.js"
+    ],
+    "testURL": "http://localhost",
+    "moduleNameMapper": {
+      "^@/(.*)": "<rootDir>/src/$1",
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+    }
+  },
+  "devDependencies": {
+    "@vue/test-utils": "^1.0.0-beta.25",
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.1",
+    "babel-helper-vue-jsx-merge-props": "^2.0.3",
+    "babel-plugin-syntax-flow": "^6.18.0",
+    "babel-plugin-syntax-jsx": "^6.18.0",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-plugin-transform-vue-jsx": "^3.7.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-vue": "^2.0.2",
+    "eslint": "^4.19.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-config-vue": "^2.0.2",
+    "eslint-friendly-formatter": "^4.0.1",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-flowtype-errors": "^3.6.0",
+    "eslint-plugin-html": "^4.0.3",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "eslint-plugin-vue": "^4.5.0",
+    "flow-bin": "^0.86.0",
+    "jest": "^23.6.0",
+    "jsdoc": "^3.5.5",
+    "lodash.get": "^4.4.2",
+    "parcel-bundler": "^1.10.3",
+    "vue": "^2.5.21",
+    "vue-eslint-parser": "^2.0.3",
+    "vue-jest": "^3.0.0",
+    "vue-template-compiler": "^2.5.17"
+  }
+}

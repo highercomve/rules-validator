@@ -1,0 +1,14 @@
+{
+  "presets": [
+		["env", {
+			"module": false
+    }],
+    "vue"
+  ],
+  "plugins": [
+    "babel-plugin-syntax-flow",
+    "babel-plugin-transform-flow-strip-types",
+    "babel-plugin-syntax-jsx",
+    "babel-plugin-transform-vue-jsx"
+  ]
+}
